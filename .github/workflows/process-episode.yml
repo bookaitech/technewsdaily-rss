@@ -1,0 +1,45 @@
+name: Process Episode and Update Feed
+
+on:
+  push:
+    branches:
+      - episode
+    paths:
+      - 'data/episode-*.xml'
+
+jobs:
+  update-feed:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout episode branch
+        uses: actions/checkout@v4
+        with:
+          ref: episode
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Generate Feed
+        run: python scripts/generate_feed.py
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add docs/feed.xml data/
+          git commit -m "Update feed with new episode and cleanup"
+
+      - name: Push to episode branch
+        run: git push
+
+      - name: Merge to main
+        run: |
+          git fetch origin main
+          git checkout main
+          git merge --no-ff episode -m "Merge episode branch"
+          git push origin main
