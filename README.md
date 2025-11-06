@@ -1,5 +1,7 @@
 # TechNewsDaily RSS
 
+[Github Page](https://bookaitech.github.io/technewsdaily-rss/)
+
 This repository is configured to publish a simple static site via GitHub Pages.
 
 What I added:
