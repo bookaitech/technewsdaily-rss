@@ -2,9 +2,9 @@ name: Deploy to gh-pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'docs/**'
+      - "docs/**"
 
 permissions:
   contents: write

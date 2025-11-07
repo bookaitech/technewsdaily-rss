@@ -19,8 +19,7 @@ New: RSS feed support
 Feed discovery
 
 The site header now contains a discovery link to the feed so browsers and readers can find it automatically:
-
-		<link rel="alternate" type="application/rss+xml" title="TechNewsDaily RSS" href="feed.xml" />
+<link rel="alternate" type="application/rss+xml" title="TechNewsDaily RSS" href="feed.xml" />
 
 How to add/update feed items
 
