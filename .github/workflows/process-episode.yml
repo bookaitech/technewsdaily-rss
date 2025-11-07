@@ -31,12 +31,18 @@ jobs:
         run: |
           rm -rf data/*.xml
           
-      - name: Commit changes
+      - name: Commit and push changes if any
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add docs/feed.xml data/
-          git commit -m "Update feed with new episode and cleanup"
+          # Stage the files we expect to change. `git add` may return non-zero
+          # if no files match, so ignore errors from it.
+          git add docs/feed.xml data/ || true
 
-      - name: Push to main
-        run: git push      
+          # If there are staged changes, commit and push. If not, skip.
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update feed with new episode and cleanup"
+            git push
+          fi
