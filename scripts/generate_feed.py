@@ -92,7 +92,13 @@ def merge_episode_into_feed(feed_file: Path, episode_file: Path) -> bytes:
     episode_root = episode_tree.getroot()
 
     # Extract item from episode XML and insert at the beginning of channel
+    # If the episode XML file's root is itself an <item>, include it.
     new_items = episode_root.findall(".//item")
+    if episode_root.tag == "item":
+        # Prepend the root <item> so it's included when files that contain
+        # a single <item> as the document element are used (common in this
+        # project). findall(".//item") does not return the root element.
+        new_items = [episode_root] + new_items
     existing_items = channel.findall("item")
 
     # Get existing GUIDs and links to check for duplicates
