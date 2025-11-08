@@ -4,8 +4,15 @@
     <title>TechNewsDaily</title>
     <link>/</link>
     <description>Tech news and summaries — generated RSS feed</description>
-    <lastBuildDate>Thu, 06 Nov 2025 12:49:54 +0000</lastBuildDate>
-    <language>en-us</language>    
+    <lastBuildDate>Sat, 08 Nov 2025 10:30:03 +0000</lastBuildDate>
+    <language>en-us</language>
+    <item>
+      <title>TechNewsDaily — Episode 1762597111</title>
+      <link><![CDATA[https://drive.google.com/uc?export=download&id=1eyT71fJHncgiupIkM3Q2_1meCDPp6eh0]]></link>
+      <description>Welcome to TechNewsDaily — this is a demo post. Replace the contents of data/posts.json with your own items.</description>
+      <pubDate/>
+      <guid>post-launch--1762597111</guid>
+    </item>
     <item>
       <title>TechNewsDaily — Launch post</title>
       <link><![CDATA[https://example.com/technewsdaily/launch]]></link>
