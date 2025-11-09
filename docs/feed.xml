@@ -1,45 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0">
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
   <channel>
     <title>TechNewsDaily</title>
     <link>/</link>
     <description>Tech news and summaries — generated RSS feed</description>
-    <lastBuildDate>Sun, 09 Nov 2025 09:10:26 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 09 Nov 2025 09:52:42 +0000</lastBuildDate>
     <language>en-us</language>
-    <item>
-      <title>TechNewsDaily — Episode 1762679410</title>
-      <link><![CDATA[https://drive.google.com/uc?export=download&id=1eyT71fJHncgiupIkM3Q2_1meCDPp6eh0]]></link>
-      <description>Welcome to TechNewsDaily — this is a demo post. Replace the contents of data/posts.json with your own items.</description>
-      <pubDate/>
-      <guid>post-launch--1762679410</guid>
-    </item>
+    <author>Lene Wong</author>
+    <copyright>Lene Wong</copyright>
+    <language>zh-tw</language>
+    <itunes:author>![CDATA[Lene Wong]]</itunes:author>
+    <itunes:image href="https://s3-us-west-2.amazonaws.com/anchor-generated-image-bank/staging/podcast_uploaded_nologo/44750669/44750669-1762414861792-53b160ae7f40a.jpg"/>
+    <itunes:owner>
+      <itunes:name>![CDATA[Lene Wong]]</itunes:name>
+      <itunes:email>book.ai.tech@gmail.com</itunes:email>
+    </itunes:owner>
+    <itunes:explicit>false</itunes:explicit>
     <item>
       <title>TechNewsDaily — Episode 1762597111</title>
       <link><![CDATA[https://drive.google.com/uc?export=download&id=1eyT71fJHncgiupIkM3Q2_1meCDPp6eh0]]></link>
-      <description>Welcome to TechNewsDaily — this is a demo post. Replace the contents of data/posts.json with your own items.</description>
+      <description>Welcome to TechNewsDaily — this is a demo post. Replace the contents of
+        data/posts.json with your own items.</description>
       <pubDate/>
       <guid>post-launch--1762597111</guid>
-    </item>
-    <item>
-      <title>TechNewsDaily — Launch post</title>
-      <link><![CDATA[https://example.com/technewsdaily/launch]]></link>
-      <description>Welcome to TechNewsDaily — this is a demo post. Replace the contents of data/posts.json with your own items.</description>
-      <pubDate>Thu, 06 Nov 2025 08:00:00 +0000</pubDate>
-      <guid>post-launch-2025-11-06</guid>
-    </item>
-    <item>
-      <title>AI breakthrough in 2025</title>
-      <link><![CDATA[https://example.com/technewsdaily/ai-breakthrough-2025]]></link>
-      <description>A short summary of the AI breakthrough article.</description>
-      <pubDate>Thu, 30 Oct 2025 12:00:00 +0000</pubDate>
-      <guid>ai-2025-10-30</guid>
-    </item>
-    <item>
-      <title>Open-source project highlights</title>
-      <link><![CDATA[https://example.com/technewsdaily/oss-highlights]]></link>
-      <description>Highlights from notable open-source projects this week.</description>
-      <pubDate>Sat, 25 Oct 2025 09:30:00 +0000</pubDate>
-      <guid>oss-2025-10-25</guid>
     </item>
   </channel>
 </rss>

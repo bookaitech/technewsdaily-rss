@@ -47,18 +47,36 @@ def get_latest_episode_file(data_dir: Path) -> Path | None:
 
 
 def merge_episode_into_feed(feed_file: Path, episode_file: Path) -> bytes:
-    # Validate episode XML has proper XML declaration and root element
-    # If feed file doesn't exist, create a new one
+    # Define common RSS namespaces
+    NAMESPACES = {
+        'itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd',
+        'content': 'http://purl.org/rss/1.0/modules/content/',
+        'atom': 'http://www.w3.org/2005/Atom',
+        'dc': 'http://purl.org/dc/elements/1.1/',
+        'media': 'http://search.yahoo.com/mrss/',
+    }
+    
+    # Register namespaces to ensure consistent prefixes
+    for prefix, uri in NAMESPACES.items():
+        ET.register_namespace(prefix, uri)
+        
+    # If feed file doesn't exist, create a new one with necessary namespaces
     if not feed_file.exists():
-        rss = ET.Element("rss", version="2.0")
+        rss = ET.Element("rss", version="2.0", attrib=NAMESPACES)
         channel = ET.SubElement(rss, "channel")
         ET.SubElement(channel, "title").text = SITE_TITLE
         ET.SubElement(channel, "link").text = SITE_LINK
         ET.SubElement(channel, "description").text = SITE_DESC
         ET.SubElement(channel, "language").text = "en-us"
     else:
-        # Parse existing feed
-        rss = ET.parse(feed_file).getroot()
+        # Parse existing feed while preserving namespaces
+        parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
+        rss = ET.parse(feed_file, parser=parser).getroot()
+        # Preserve existing namespaces from the root element
+        for key, value in rss.attrib.items():
+            if key.startswith('xmlns:'):
+                prefix = key.split(':')[1]
+                ET.register_namespace(prefix, value)
         channel = rss.find("channel")
 
     # Update build date
@@ -146,21 +164,37 @@ def merge_episode_into_feed(feed_file: Path, episode_file: Path) -> bytes:
     for item in existing_items:
         channel.append(item)
 
-    # Pretty-print, but remove excessive empty lines for compactness
-    raw = ET.tostring(rss, encoding="utf-8")
+    # Pretty-print with namespace preservation
+    raw = ET.tostring(rss, encoding="utf-8", xml_declaration=True)
     parsed = minidom.parseString(raw)
-
-    # Replace text nodes for <item>/<link> with CDATA sections so the
-    # final serialized feed contains literal '&' inside URLs instead of
-    # the escaped '&amp;'. This helps consumers that extract innerHTML
-    # or raw text to construct HTTP requests without seeing the entity.
+    
+    def fix_namespace_prefixes(node):
+        """Recursively fix namespace prefixes to match original names"""
+        if node.nodeType == Node.ELEMENT_NODE and ':' in node.tagName:
+            prefix = node.tagName.split(':')[0]
+            if node.prefix != prefix:
+                node.prefix = prefix
+        for child in node.childNodes:
+            fix_namespace_prefixes(child)
+    
+    # First fix namespace prefixes
+    fix_namespace_prefixes(parsed.documentElement)
+    
+    # Then handle CDATA sections for links
     for link_node in parsed.getElementsByTagName("link"):
         parent = link_node.parentNode
-        if parent is None:
+        if parent is None or parent.nodeName != "item":
             continue
-        # Only convert item links, not the channel-level <link>
-        if parent.nodeName != "item":
-            continue
+            
+        text_parts = []
+        for child in list(link_node.childNodes):
+            if child.nodeType in (Node.TEXT_NODE, Node.CDATA_SECTION_NODE):
+                text_parts.append(child.data)
+            link_node.removeChild(child)
+            
+        text = "".join(text_parts)
+        cdata = parsed.createCDATASection(text)
+        link_node.appendChild(cdata)
 
         # Collect existing text content (including any CDATA) then remove children
         text_parts = []
